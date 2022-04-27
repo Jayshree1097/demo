@@ -1,0 +1,20 @@
+drop database if exists demotask;
+
+create database if not exists demotask;
+
+use demotask;
+
+CREATE OR REPLACE TABLE video_demo(ID INT AUTOINCREMENT START=1 INCREMENT=1, NAME VARCHAR(40) DEFAULT 'DEMOyoutube', CREATE_DATE timestamp);
+
+CREATE OR REPLACE TASK INSERT_Data_with_one_min_interval
+WAREHOUSE = COMPUTE_WH
+SCHEDULE = '1 MINUTE'
+AS 
+INSERT INTO video_demo(CREATE_DATE) VALUES (CURRENT_TIMESTAMP);
+
+SHOW TASKS;
+
+ALTER TASK INSERT_Data_with_one_min_interval RESUME;
+ALTER TASK INSERT_Data_with_one_min_interval SUSPEND;
+
+SELECT * FROM video_demo;
